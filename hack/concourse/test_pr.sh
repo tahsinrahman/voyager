@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -x -e
+echo hello world
 
 ROOT_DIR=$(pwd)
 mv kubeconfig/kubeconfig-0.0.1/* /
