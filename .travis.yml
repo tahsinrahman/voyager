@@ -1,0 +1,21 @@
+language: go
+
+services:
+  - docker
+go:
+  - 1.x
+  - tip
+
+
+install:
+  - curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+  - chmod +x kubectl; mv kubectl /bin/
+  - wget https://cdn.rawgit.com/Mirantis/kubeadm-dind-cluster/master/fixed/dind-cluster-v1.8.sh && chmod +x dind-cluster-v1.8.sh && ./dind-cluster-v1.8.sh up
+
+
+script:
+  - ./hack/make.py test unit
+  - ./hack/make.py test minikube
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
